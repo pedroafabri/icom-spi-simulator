@@ -1,0 +1,78 @@
+## .NET Compilation
+bin/
+obj/
+[Bb]uild/
+[Bb]uild[Ll]og.*
+
+# Debug Files
+*.mdb
+*.opendb
+*.pdb
+*.ilk
+*.log
+*.tlog
+*.tmp
+*.cache
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Publish Directory
+*.Publish.xml
+publish/
+
+# Diretórios de testes e coverage
+TestResults/
+*.VisualState.xml
+*.vspscc
+*.vssscc
+*.ncrunchsolution
+nCrunchTemp_*
+
+# Ferramentas de análise
+*.coverage
+*.coveragexml
+
+## IDEs
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+
+# VS Code
+.vscode/
+
+## Sistema Operacional
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+## Pacotes e artefatos
+# Pacotes NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+project.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# Outros
+launchSettings.json  # se contiver configs sensíveis (opcional)
+
+# IDE files
+.idea

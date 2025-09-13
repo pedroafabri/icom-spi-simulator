@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using IcomSpiSimulator.Api.Infrastructure.Persistence;
+using IcomSpiSimulator.Api.Infrastructure.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace IcomSpiSimulator.Api.Infrastructure.Extensions;
@@ -47,13 +49,25 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<DatabaseOptions>(config.GetSection(DatabaseOptions.SectionName));
-
         services.AddDbContext<AppDbContext>((sp, opt) =>
         {
-            var dbOpts = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseOptions>>().Value;
-            opt.UseNpgsql(dbOpts.ConnectionString);
+            var cs = config["Database:ConnectionString"] 
+                     ?? config.GetConnectionString("Postgres");
+
+            if (string.IsNullOrWhiteSpace(cs))
+                throw new InvalidOperationException(
+                    "Database connection string is empty. " +
+                    "Set Database__ConnectionString env var or ConnectionStrings:Postgres.");
+
+            opt.UseNpgsql(cs);
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddHostedServices(this IServiceCollection services)
+    {
+        services.AddHostedService<MigrationHostedService>();
         return services;
     }
 }

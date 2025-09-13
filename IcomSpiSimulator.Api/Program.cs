@@ -6,15 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var conn = builder.Configuration.GetConnectionString("Postgres")
-           ?? builder.Configuration["ConnectionStrings:Postgres"]
-           ?? "Host=localhost;Port=5432;Database=spi;Username=spi;Password=spi";
-
 builder.Services
     .AddApiBasics()
     .AddSwaggerDocs()
     .AddDomainServices()
-    .AddDatabaseServices(builder.Configuration);
+    .AddDatabaseServices(builder.Configuration)
+    .AddHostedServices();
     
 var app = builder.Build();
 

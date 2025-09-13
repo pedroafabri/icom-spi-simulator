@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using IcomSpiSimulator.Api.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace IcomSpiSimulator.Api.Infrastructure.Extensions;
@@ -39,6 +41,18 @@ public static class ServiceCollectionExtensions
             logging.ClearProviders();
             logging.AddConsole();
             logging.AddDebug();
+        });
+        return services;
+    }
+
+    public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration config)
+    {
+        services.Configure<DatabaseOptions>(config.GetSection(DatabaseOptions.SectionName));
+
+        services.AddDbContext<AppDbContext>((sp, opt) =>
+        {
+            var dbOpts = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseOptions>>().Value;
+            opt.UseNpgsql(dbOpts.ConnectionString);
         });
         return services;
     }
